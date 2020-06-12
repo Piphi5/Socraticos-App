@@ -18,7 +18,7 @@ class _NavigationState extends State<NavigationBar> {
 
   static List<Widget> _widgetOptions = <Widget>[
     Search(),
-    Chats(),
+    ChatsList(),
     UserProfile(),
 
   ];
