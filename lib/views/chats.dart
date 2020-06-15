@@ -10,18 +10,33 @@ final double verticalSpacing = 20;
 List<String> membersTest = ["Breh", "Pooj", "Nation", "APCS", "Yuh", "Clean"];
 
 class ChatsList extends StatefulWidget {
+  final Future<User> user;
+  ChatsList(this.user);
   @override
-  _ChatsState createState() => _ChatsState();
+  _ChatsState createState() => _ChatsState(user);
 }
 
 class _ChatsState extends State<ChatsList> {
-  Future<Chat> chatList;
+  Future<List<Chat>> chatList;
+  Future<User> user;
+  User currUser;
+
+  _ChatsState(this.user);
 
   @override
+  void initState() {
+    super.initState();
+    user = fetchUser();
+    
+    
+  }
+  @override
   Widget build(BuildContext context) {
+    print(user);
     final topBar = SliverAppBar(
       pinned: false,
       expandedHeight: 195,
+      leading: Container(),
       backgroundColor: Color(0xffCBF1F5),
       flexibleSpace: Container(
         alignment: Alignment.centerLeft,
@@ -36,11 +51,12 @@ class _ChatsState extends State<ChatsList> {
       ),
     );
     return FutureBuilder<List<Chat>>(
-      future: fetchChats(),
-      builder: (context, snapshot) {
+      future: fetchUser().then((value) => fetchChats(value)),
+      builder: (context, AsyncSnapshot snapshot) {
         Widget chatListSliver;
         if (snapshot.hasError) print(snapshot.error);
         if (snapshot.hasData) {
+
           chatListSliver = SliverFixedExtentList(
               itemExtent: 200,
               delegate:
@@ -53,7 +69,6 @@ class _ChatsState extends State<ChatsList> {
             padding: const EdgeInsets.all(100),
             child: Center(
                 child: CircularProgressIndicator(
-              backgroundColor: chatBlue,
             )),
           ));
         }
@@ -135,15 +150,11 @@ class Chat {
   }
 }
 
-Future<List<Chat>> fetchChats() async {
-  final url = "https://socraticos.herokuapp.com/groups/list";
-  final response = await http.Client()
-      .get(Uri.encodeFull(url), headers: {"Accept": "application/json"});
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-
-    final list = jsonDecode(response.body).cast<Map<String, dynamic>>();
-    return list.map<Chat>((json) => Chat.fromJson(json)).toList();
+Future<List<Chat>> fetchChats(User user) async {
+  var value = <Map<String, dynamic>>[];
+  for (String chatId in user.chats) {
+    final response = await http.get("https://socraticos.herokuapp.com/groups/" + chatId);
+    value.add((jsonDecode(response.body)));
   }
+  return value.map<Chat>((json) => Chat.fromJson(json)).toList();
 }

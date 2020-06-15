@@ -3,6 +3,7 @@ import 'package:Socraticos/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:firebase_auth/firebase_auth.dart';
 
 final Color profileBlue = const Color(0xffB5F8FF);
 final double verticalSpacing = 20;
@@ -14,13 +15,6 @@ class UserProfile extends StatefulWidget {
   _UserProfileState createState() => _UserProfileState();
 }
 class _UserProfileState extends State<UserProfile> {
-  Future<User> futureUser;
-  @override
-  void initState() {
-    super.initState();
-    futureUser = fetchUser();
-
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +77,6 @@ Widget profileDisplay(BuildContext context) {
   return FutureBuilder<User>(
     future: fetchUser(),
     builder: (context, snapshot) {
-      print(snapshot.hasData);
       if (snapshot.hasData) {
         return Expanded(
           child: Stack(
@@ -161,28 +154,34 @@ Widget profileDisplay(BuildContext context) {
   );
 }
 
-class User {
-  final String name;
-  final String email;
-  final String description;
-
-  User({this.name, this.email, this.description});
-  factory User.fromJson(Map<String, dynamic> json) {
-
-    return User(name: json["name"], email: json["email"],description: json["desc"]);
-  }
-
-}
-
-Future<User> fetchUser() async {
-  final response = await http.get("https://socraticos.herokuapp.com/users/4f51f5a7-cf33-41d0-b1c3-1d958e378cdf");
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    return User.fromJson(json.decode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load album');
-  }
-}
+//class User {
+//  final String name;
+//  final String email;
+//  final String description;
+//
+//  User({this.name, this.email, this.description});
+//  factory User.fromJson(Map<String, dynamic> json) {
+//
+//    return User(name: json["name"], email: json["email"],description: json["desc"]);
+//  }
+//
+//}
+//
+//Future<User> fetchUser() async {
+//  final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+//  print("https://socraticos.herokuapp.com/users/" + user.uid);
+//  final response = await http.get("https://socraticos.herokuapp.com/users/" + user.uid);
+////  final response = await http.get("https://socraticos.herokuapp.com/users/" + "LODLn1hE2BTKCp7SGk3d7lqiOih2");
+////    print("https://socraticos.herokuapp.com/users/" + "LODLn1hE2BTKCp7SGk3d7lqiOih2");
+//
+//  if (response.statusCode == 200) {
+//    // If the server did return a 200 OK response,
+//    // then parse the JSON.
+//    User userInstance = User.fromJson(json.decode(response.body));
+//    return userInstance;
+//  } else {
+//    // If the server did not return a 200 OK response,
+//    // then throw an exception.
+//    throw Exception('Failed to load user');
+//  }
+//}
