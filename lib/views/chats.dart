@@ -10,18 +10,14 @@ final double verticalSpacing = 20;
 List<String> membersTest = ["Breh", "Pooj", "Nation", "APCS", "Yuh", "Clean"];
 
 class ChatsList extends StatefulWidget {
-  final Future<User> user;
-  ChatsList(this.user);
+
   @override
-  _ChatsState createState() => _ChatsState(user);
+  _ChatsState createState() => _ChatsState();
 }
 
 class _ChatsState extends State<ChatsList> {
   Future<List<Chat>> chatList;
   Future<User> user;
-  User currUser;
-
-  _ChatsState(this.user);
 
   @override
   void initState() {

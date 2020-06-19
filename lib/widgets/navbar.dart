@@ -18,11 +18,10 @@ class NavigationBar extends StatefulWidget {
 class _NavigationState extends State<NavigationBar> {
   _NavigationState();
   int _selectedIndex = 0;
-  static Future<User> user;
-
+  Future<User> user;
   static List<Widget> _widgetOptions = <Widget>[
     Search(),
-    ChatsList(user),
+    ChatsList(),
     UserProfile(),
     Loading()
 
