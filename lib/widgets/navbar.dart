@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+User appUser;
 
 class NavigationBar extends StatefulWidget {
   NavigationBar({Key key}) : super(key: key);
@@ -32,7 +33,6 @@ class _NavigationState extends State<NavigationBar> {
   @override
   void initState() {
     super.initState();
-    user = fetchUser();
   }
 
 
@@ -52,33 +52,46 @@ class _NavigationState extends State<NavigationBar> {
   Widget build(BuildContext context) {
 
 
-    return
-      Scaffold(
-        backgroundColor: background,
-        appBar: appBarMain(context),
-        body:currWidget,
-        bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: appBarBlue,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              title: Text('Search'),
+    return FutureBuilder <User>(
+      future: fetchUser(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          appUser = snapshot.data;
+          return  Scaffold(
+            backgroundColor: background,
+            appBar: appBarMain(context),
+            body:currWidget,
+            bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: appBarBlue,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.search),
+                  title: Text('Search'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.chat_bubble_outline),
+                  title: Text('Socraticos'),
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person_outline),
+                  title: Text('Profile'),
+                ),
+              ],
+              currentIndex: _selectedIndex,
+              selectedItemColor: Colors.black,
+              onTap: _onItemTapped,
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.chat_bubble_outline),
-              title: Text('Socraticos'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              title: Text('Profile'),
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.black,
-          onTap: _onItemTapped,
-        ),
 
-      );
+          );
+        } else {
+          return CircularProgressIndicator();
+        }
+
+
+      },
+
+    );
+
   }
 }
 
@@ -87,11 +100,12 @@ class User {
   final String email;
   final String description;
   final List chats;
+  final String id;
 
-  User({this.name, this.email, this.description, this.chats});
+  User({this.name, this.email, this.description, this.chats, this.id});
   factory User.fromJson(Map<String, dynamic> json) {
 
-    return User(name: json["name"], email: json["email"],description: json["desc"], chats: [json["enrollments"], json["mentorships"]].expand((x) => x).toList());
+    return User(name: json["name"], email: json["email"],description: json["desc"], chats: [json["enrollments"], json["mentorships"]].expand((x) => x).toList(), id: json["userID"]);
   }
 
 }
@@ -117,4 +131,11 @@ Future<User> fetchUser() async {
     // then throw an exception.
     throw Exception('Failed to load user');
   }
+}
+
+User getUser() {
+  return appUser;
+}
+void refreshUser() async {
+  appUser = await fetchUser();
 }

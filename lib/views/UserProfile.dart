@@ -74,10 +74,6 @@ Widget profileBox(BuildContext context) {
 Widget profileDisplay(BuildContext context) {
   final double width = MediaQuery.of(context).size.width*0.8;
   final double containerSpacing = 30;
-  return FutureBuilder<User>(
-    future: fetchUser(),
-    builder: (context, snapshot) {
-      if (snapshot.hasData) {
         return Expanded(
           child: Stack(
             alignment: AlignmentDirectional.topCenter,
@@ -119,7 +115,7 @@ Widget profileDisplay(BuildContext context) {
                       width: width,
                       child: Center(
                         child: Text(
-                          snapshot.data.name,
+                          appUser.name,
                           style: titleStyle(36),
                         ),
                       ),
@@ -128,7 +124,7 @@ Widget profileDisplay(BuildContext context) {
                       height: containerSpacing,
                     ),
                     Text(
-                      "Email: " + snapshot.data.email,
+                      "Email: " + appUser.email,
                       style: titleStyle(18),
                     ),
                     SizedBox(
@@ -137,7 +133,7 @@ Widget profileDisplay(BuildContext context) {
                     Container(
                       width: width,
                       child: Text(
-                        "Description: " + snapshot.data.description,
+                        "Description: " + appUser.description,
                         style: titleStyle(18),
                       ),
                     )
@@ -147,11 +143,7 @@ Widget profileDisplay(BuildContext context) {
             ],
           ),
         );
-      } else {
-        return Center(child: CircularProgressIndicator());
-      }
-    },
-  );
+
 }
 
 //class User {

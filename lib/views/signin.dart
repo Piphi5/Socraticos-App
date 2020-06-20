@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Socraticos/backend/session.dart';
 import 'package:Socraticos/views/signup.dart';
 import 'package:Socraticos/widgets/navbar.dart';
 import 'package:Socraticos/widgets/widgets.dart';
@@ -106,6 +107,8 @@ class _LoginPageState extends State<LoginPage> {
 
 
         if (response.statusCode == 200){
+          print("Adding cookies");
+          Session.updateCookie(response);
           Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationBar()));
         } else {
           throw Exception("Failed to authenticate user");

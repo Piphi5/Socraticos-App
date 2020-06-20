@@ -1,5 +1,6 @@
 import 'package:Socraticos/widgets/navbar.dart';
 import 'package:Socraticos/widgets/widgets.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -46,10 +47,11 @@ class _ChatsState extends State<ChatsList> {
                 ))),
       ),
     );
+    Widget chatListSliver;
     return FutureBuilder<List<Chat>>(
-      future: fetchUser().then((value) => fetchChats(value)),
+      future: fetchChats(appUser),
       builder: (context, AsyncSnapshot snapshot) {
-        Widget chatListSliver;
+
         if (snapshot.hasError) print(snapshot.error);
         if (snapshot.hasData) {
 
@@ -115,9 +117,10 @@ Widget chatDisplay(
                 SizedBox(
                   height: verticalSpacing,
                 ),
-                Text(
+                AutoSizeText(
                   "Members: " + members.toString(),
                   style: titleStyle(18),
+                  maxLines: 2,
                 )
               ],
             ),

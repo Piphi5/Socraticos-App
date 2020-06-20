@@ -1,5 +1,7 @@
+import 'package:Socraticos/backend/session.dart';
 import 'package:Socraticos/widgets/navbar.dart';
 import 'package:Socraticos/widgets/widgets.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -98,20 +100,16 @@ class GroupSearch extends SearchDelegate<Chat> {
 
   }
   void joinGroup(String groupId) async {
-    final http.Response response = await http.post(
-      'https://socraticos.herokuapp.com/groups/join/$groupId',
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'role': "student",
-      }),
-    );
-    if (response.statusCode == 200) {
-      print("joined group!");
-    } else {
-      print("death occured");
-    }
+
+    Map<String, dynamic> data = {
+    'role': "student",
+    "userID" : appUser.id
+    };
+
+    http.Response response = await Session.post('https://socraticos.herokuapp.com/groups/join/$groupId', data);
+    refreshUser();
+    print(appUser.chats);
+
   }
 
   @override
@@ -125,10 +123,10 @@ class GroupSearch extends SearchDelegate<Chat> {
               itemBuilder: (context, index) {
                 return ListTile(
                     title: Text('${snapshot.data[index].title}'),
-                        subtitle: Text('${snapshot.data[index].description} \n${snapshot.data[index].students}'),
+                        subtitle: AutoSizeText('${snapshot.data[index].description} \n${snapshot.data[index].students}', maxLines: 2,),
                   isThreeLine: true,
                   onTap: () {
-                      joinGroup(snapshot.data[index].groupId);
+                      appUser.chats.contains(snapshot.data[index].groupId) ?   print("already in group") : joinGroup(snapshot.data[index].groupId); //  TODO maybe have it alert them that they are already in it
                   },
                 );
               },
