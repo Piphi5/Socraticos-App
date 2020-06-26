@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:Socraticos/backend/session.dart';
+import 'package:Socraticos/views/chat2.dart';
+import 'package:Socraticos/views/chatPage.dart';
 import 'package:Socraticos/views/signup.dart';
+import 'package:Socraticos/widgets/chat.dart';
 import 'package:Socraticos/widgets/navbar.dart';
 import 'package:Socraticos/widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';

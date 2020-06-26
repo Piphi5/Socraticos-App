@@ -1,3 +1,4 @@
+import 'package:Socraticos/views/chatPage.dart';
 import 'package:Socraticos/widgets/navbar.dart';
 import 'package:Socraticos/widgets/widgets.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -29,7 +30,6 @@ class _ChatsState extends State<ChatsList> {
   }
   @override
   Widget build(BuildContext context) {
-    print(user);
     final topBar = SliverAppBar(
       pinned: false,
       expandedHeight: 195,
@@ -80,52 +80,60 @@ class _ChatsState extends State<ChatsList> {
 }
 
 Widget chatDisplay(
-    BuildContext context, String name, String subject, List members) {
-  return Center(
-    child: Container(
-      decoration: BoxDecoration(
-        color: chatBlue,
-        borderRadius: BorderRadius.circular(25),
-        shape: BoxShape.rectangle,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5, // changes position of shadow
-          )
-        ],
+    BuildContext context, String name, String subject, String id, List members) {
+  return GestureDetector(
+    child: Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: chatBlue,
+          borderRadius: BorderRadius.circular(25),
+          shape: BoxShape.rectangle,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 5, // changes position of shadow
+            )
+          ],
+        ),
+        child: SizedBox(
+            width: 330,
+            height: 190,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: titleStyle(24),
+                  ),
+                  SizedBox(
+                    height: verticalSpacing,
+                  ),
+                  Text(
+                    "Subject: " + subject,
+                    style: titleStyle(18),
+                  ),
+                  SizedBox(
+                    height: verticalSpacing,
+                  ),
+                  AutoSizeText(
+                    "Members: " + members.toString(),
+                    style: titleStyle(18),
+                    maxLines: 2,
+                  )
+                ],
+              ),
+            )),
       ),
-      child: SizedBox(
-          width: 330,
-          height: 190,
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: titleStyle(24),
-                ),
-                SizedBox(
-                  height: verticalSpacing,
-                ),
-                Text(
-                  "Subject: " + subject,
-                  style: titleStyle(18),
-                ),
-                SizedBox(
-                  height: verticalSpacing,
-                ),
-                AutoSizeText(
-                  "Members: " + members.toString(),
-                  style: titleStyle(18),
-                  maxLines: 2,
-                )
-              ],
-            ),
-          )),
     ),
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ChatPage(id, name)),
+      );
+    },
   );
 }
 
@@ -145,7 +153,7 @@ class Chat {
         groupId: json["groupID"] as String);
   }
   Widget displayChat(context) {
-    return chatDisplay(context, this.title, this.description, this.students);
+    return chatDisplay(context, this.title, this.description, this.groupId, this.students);
   }
 }
 

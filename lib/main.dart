@@ -2,6 +2,7 @@ import 'package:Socraticos/views/UserProfile.dart';
 import 'package:Socraticos/views/chats.dart';
 import 'package:Socraticos/views/signin.dart';
 import 'package:Socraticos/views/signup.dart';
+import 'package:Socraticos/widgets/chat.dart';
 import 'package:Socraticos/widgets/navbar.dart';
 import 'package:flutter/material.dart';
 

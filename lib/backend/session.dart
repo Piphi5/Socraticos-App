@@ -6,10 +6,21 @@ class Session {
   'Content-Type': 'application/json',
   };
 
-  Future<Map> get(String url) async {
+  static Future<http.Response> get(String url) async {
     http.Response response = await http.get(url, headers: header);
-    updateCookie(response);
-    return json.decode(response.body);
+
+    print(response.statusCode);
+    return response;
+  }
+
+  static Future<http.Response> getNoContent(String url) async {
+    http.Response response = await http.get(url, headers: <String, String>{
+      "Cookie" : header["Cookie"]
+    }
+    );
+
+    print(response.statusCode);
+    return response;
   }
 
   static Future<http.Response> post(String url, dynamic data) async {
@@ -23,6 +34,7 @@ class Session {
 
       if (response.statusCode == 200) {
         print("success");
+        return response;
 
 
       } else {
@@ -32,6 +44,7 @@ class Session {
       print("response died");
       print(Exception);
     }
+
 
 
 
