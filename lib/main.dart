@@ -1,7 +1,11 @@
 import 'package:Socraticos/views/UserProfile.dart';
 import 'package:Socraticos/views/chats.dart';
+import 'package:Socraticos/views/signin.dart';
+import 'package:Socraticos/views/signup.dart';
+import 'package:Socraticos/widgets/chat.dart';
 import 'package:Socraticos/widgets/navbar.dart';
 import 'package:flutter/material.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -15,13 +19,13 @@ class MyApp extends StatelessWidget {
       title: 'Socraticos',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primaryColor: Colors.white,
+        primaryColor: Colors.black,
         scaffoldBackgroundColor: Color(0xff1F1F1F),
-        accentColor: Colors.white,
+        accentColor: Colors.lightBlueAccent,
         fontFamily: "OverpassRegular",
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: NavigationBar(),
+      home: LoginPage(),
     );
   }
 }
