@@ -36,7 +36,14 @@ class _PinnedChatPageState extends State<PinnedChatHistory> {
   void initState() {
     super.initState();
     print("DONE BUILDING");
-    fetchTexts();
+    fetchTexts().then((value) {
+      setState(() {
+        histLoaded = value;
+      });
+
+      print(histLoaded);
+    }
+    );
   }
 
   Future<bool> fetchTexts() async {
@@ -45,6 +52,7 @@ class _PinnedChatPageState extends State<PinnedChatHistory> {
     final response = await Session.getNoContent(
         "https://socraticos.herokuapp.com/groups/pinnedHistory/$groupID?maxResults=120"
     );
+
     if (response.statusCode == 200) {
       List data = json.decode(response.body);
 
@@ -146,7 +154,7 @@ class _PinnedChatPageState extends State<PinnedChatHistory> {
     AppBar appBar = chatAppBar(context);
     height = MediaQuery.of(context).size.height - appBar.preferredSize.height;
     width = MediaQuery.of(context).size.width;
-    return histLoaded && socketConnect ? Scaffold(
+    return histLoaded ? Scaffold(
       appBar: appBar,
       backgroundColor:  appBarBlue,
       body: SingleChildScrollView(
@@ -172,8 +180,6 @@ class Message {
     var pinned = json["pinned"];
     if (pinned == null) {
       pinned = false;
-    } else {
-      pinned = !pinned;
     }
     return Message(
         username: json["authorID"],
@@ -187,7 +193,7 @@ class Message {
 
     isPinned = !isPinned;
     Map<String, dynamic> data = {
-      "unpin" : isPinned
+      "unpin" : !isPinned
     };
     Session.post("https://socraticos.herokuapp.com/groups/setPin/$groupID/$messageID", data);
 

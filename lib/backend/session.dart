@@ -7,6 +7,7 @@ class Session {
   };
 
   static Future<http.Response> get(String url) async {
+    print("URL: $url header: $header");
     http.Response response = await http.get(url, headers: header);
 
     print(response.statusCode);
