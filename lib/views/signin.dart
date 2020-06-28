@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:requests/requests.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -91,6 +92,8 @@ class _LoginPageState extends State<LoginPage> {
   }
   void signIn(String _token) async {
 
+    String url = 'https://socraticos.herokuapp.com/auth/login';
+
       
       print(_token);
         print(jsonEncode(<String, String>{
@@ -105,12 +108,30 @@ class _LoginPageState extends State<LoginPage> {
             'token': _token,
           }),
         );
+//        var r = await Requests.post(url,
+//            headers: <String, String>{
+//              'Content-Type': 'application/json; charset=UTF-8',
+//            },
+//            body: <String, String>{
+//              'token': _token,
+//            },
+//            bodyEncoding: RequestBodyEncoding.JSON
+//        );
+
+//        print((r.headers));
+//        if (r.statusCode == 200) {
+//          Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationBar()));
+//        } else {
+//          print("Death occured");
+//          print(r.content());
+//        }
 
 
 
 
         if (response.statusCode == 200){
           print("Adding cookies");
+          print(response.headers);
           Session.updateCookie(response);
           Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationBar()));
         } else {

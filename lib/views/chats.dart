@@ -99,31 +99,34 @@ Widget chatDisplay(
         child: SizedBox(
             width: 330,
             height: 190,
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: titleStyle(24),
-                  ),
-                  SizedBox(
-                    height: verticalSpacing,
-                  ),
-                  Text(
-                    "Subject: " + subject,
-                    style: titleStyle(18),
-                  ),
-                  SizedBox(
-                    height: verticalSpacing,
-                  ),
-                  AutoSizeText(
-                    "Members: " + members.toString(),
-                    style: titleStyle(18),
-                    maxLines: 2,
-                  )
-                ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      name,
+                      style: titleStyle(24),
+                    ),
+                    SizedBox(
+                      height: verticalSpacing,
+                    ),
+                    Text(
+                      "Subject: " + subject,
+                      style: titleStyle(18),
+                    ),
+                    SizedBox(
+                      height: verticalSpacing,
+                    ),
+                    AutoSizeText(
+                      "Members: " + members.toString(),
+                      style: titleStyle(18),
+                      maxLines: 2,
+                    )
+                  ],
+                ),
               ),
             )),
       ),
