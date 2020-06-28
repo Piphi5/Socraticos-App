@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 class Session {
   static Map<String, String> header = <String, String>{
-  'Content-Type': 'application/json',
+    'Content-Type': 'application/json',
   };
 
   static Future<http.Response> get(String url) async {
@@ -29,7 +29,7 @@ class Session {
 
     try{
       final http.Response response = await http.post(url,headers: header,
-       body: jsonEncode(data));
+          body: jsonEncode(data));
       print("header: " + header.toString());
       print("data: " + jsonEncode(data));
 
@@ -59,6 +59,8 @@ class Session {
       (index == -1) ? rawCookie : rawCookie.substring(0, index);
       print("updated cookie $rawCookie");
 
+    } else {
+      header['Cookie'] = "session=" + jsonDecode(response.body)["token"];
     }
     print(header);
   }
