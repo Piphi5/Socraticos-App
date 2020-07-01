@@ -28629,7 +28629,7 @@ return T.hd(H.b([s,new T.cp(t,20,t,t),new T.qM(1,C.iG,T.hY(C.tB,H.b([M.bp(t,t,t,
 S.q4.prototype={
 ao:function(){return new S.Gc(this.c,this.d,C.l)}}
 S.Gc.prototype={
-aI:function(){var t,s,r,q,p,o,n,m,l=this,k="wss://socraticos.herokuapp.com/",j="query"
+aI:function(){var t,s,r,q,p,o,n,m,l=this,k="https://socraticos.herokuapp.com/",j="query"
 l.f0().bj(0,new S.a_q(l),u.H)
 t=u.S
 s=u.U
@@ -28640,7 +28640,7 @@ q=P.jL(k,0,null)
 p=q.gd6()+"://"+q.ge6(q)+":"+H.a(q.git(q))
 o=q.gcH(q)
 n=$.a4E.ak(0,p)&&$.a4E.h(0,p).c.ak(0,o)
-if(J.d(r.h(0,"forceNew"),!0)||J.d(r.h(0,"force new connection"),!0)||!1===r.h(0,"multiplex")||n){$.afy().aj(C.k,"ignoring socket cache for wss://socraticos.herokuapp.com/",null,null)
+if(J.d(r.h(0,"forceNew"),!0)||J.d(r.h(0,"force new connection"),!0)||!1===r.h(0,"multiplex")||n){$.afy().aj(C.k,"ignoring socket cache for https://socraticos.herokuapp.com/",null,null)
 m=Q.aas(r,k)}else{m=$.a4E.h(0,p)
 if(m==null){m=Q.aas(r,k)
 $.a4E.l(0,p,m)}}if(q.geD(q).length!==0&&r.h(0,j)==null)r.l(0,j,q.geD(q))
